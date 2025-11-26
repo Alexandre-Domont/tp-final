@@ -1,5 +1,3 @@
-Voici une version améliorée de votre README.md, avec une structure plus claire, une mise en forme uniforme, et une section expliquant **Docker** et **Docker Compose** :
-
 ````markdown
 # Tutoriel d’installation
 
@@ -23,6 +21,7 @@ Clonez le repository sur votre VM :
 
 ```bash
 git clone https://github.com/Alexandre-Domont/tp-final.git
+```
 ````
 
 Entrez ensuite dans le dossier du projet :
@@ -149,21 +148,6 @@ docker compose restart
 
 ```bash
 docker compose logs -f
-```
-
----
-
-## 8. Conseils supplémentaires
-
-* Sauvegardez régulièrement vos données WordPress et Zabbix.
-* Vérifiez les fichiers de configuration dans `docker-compose.yml` pour ajuster les ports ou volumes si nécessaire.
-* Pour toute modification majeure, pensez à recréer les conteneurs avec :
-
-```bash
-docker compose down
-docker compose up -d --build
-```
-
 ```
 
 ---
