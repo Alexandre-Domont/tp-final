@@ -1,5 +1,5 @@
 ````markdown
-# Tutoriel d’installation
+# Tutoriel d’installation pour Debian 12
 
 Ce guide explique comment **réinstaller entièrement** l’environnement WordPress + Zabbix depuis ce repository GitHub.
 
