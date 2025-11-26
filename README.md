@@ -149,10 +149,3 @@ docker compose restart
 ```bash
 docker compose logs -f
 ```
-
----
-
-Si tu veux, je peux aussi créer une **version encore plus visuelle et friendly** avec des emojis, sections colorées et des encadrés pour Docker et Docker Compose pour que ton README soit ultra clair et moderne.  
-
-Veux‑tu que je fasse ça ?
-```
