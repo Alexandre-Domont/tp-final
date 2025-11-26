@@ -1,34 +1,49 @@
+Voici une version améliorée de votre README.md, avec une structure plus claire, une mise en forme uniforme, et une section expliquant **Docker** et **Docker Compose** :
+
+````markdown
 # Tutoriel d’installation
 
-Ce guide explique comment **réinstaller entièrement** l’environnement WordPress + Zabbix depuis le repository GitHub.
+Ce guide explique comment **réinstaller entièrement** l’environnement WordPress + Zabbix depuis ce repository GitHub.
 
 ---
 
-#Récupération du projet depuis GitHub
+## 1. Prérequis
 
-Sur votre VM, commencez par cloner le repo :
+Avant de commencer, assurez-vous que votre VM dispose de :
+
+- Git installé
+- Un accès internet
+- Les ports 8080 et 8081 libres pour WordPress et Zabbix
+
+---
+
+## 2. Récupération du projet depuis GitHub
+
+Clonez le repository sur votre VM :
 
 ```bash
 git clone https://github.com/Alexandre-Domont/tp-final.git
+````
+
+Entrez ensuite dans le dossier du projet :
+
+```bash
+cd tp-final
 ```
 
-Puis entrez dans le dossier :
-
-```bash cd tp-final ```
-
-### ▶️ Rendez le script exécutable :
+### ▶️ Rendez le script d’installation exécutable
 
 ```bash
 chmod +x install_docker.sh
 ```
 
-### ▶️ Lancez l’installation :
+### ▶️ Lancez l’installation
 
 ```bash
 ./install_docker.sh
 ```
 
-Une fois terminé, vérifiez l’installation :
+Une fois l’installation terminée, vérifiez que Docker et Docker Compose sont bien installés :
 
 ```bash
 docker --version
@@ -37,20 +52,37 @@ docker compose version
 
 ---
 
-#Installation de WordPress + Zabbix
-#Lancer l’environnement Docker
+## 3. Introduction à Docker et Docker Compose
 
-Une fois Docker installé, vous pouvez tout déployer en une seule commande.
+### Docker
 
-Depuis le dossier où se trouve votre `docker-compose.yml` :
+Docker est une plateforme qui permet de **créer, déployer et exécuter des applications dans des conteneurs**.
+Un conteneur est un environnement léger, isolé et portable qui contient tout ce dont une application a besoin pour fonctionner (code, bibliothèques, dépendances).
 
-### Méthode recommandée :
+**Avantages :**
+
+* Isolation complète des applications
+* Portabilité entre différents systèmes
+* Déploiement rapide
+
+### Docker Compose
+
+Docker Compose est un outil qui permet de **définir et gérer des applications multi-conteneurs** à l’aide d’un fichier `docker-compose.yml`.
+Au lieu de lancer chaque conteneur individuellement, vous pouvez tout déployer en une seule commande.
+
+---
+
+## 4. Installation de WordPress + Zabbix
+
+Une fois Docker installé, vous pouvez déployer l’environnement complet depuis le dossier contenant le fichier `docker-compose.yml`.
+
+### Méthode recommandée
 
 ```bash
 docker compose up -d
 ```
 
-### Si votre VM utilise encore l’ancien binaire :
+### Pour les anciennes versions utilisant l’ancien binaire
 
 ```bash
 docker-compose up -d
@@ -58,15 +90,19 @@ docker-compose up -d
 
 ---
 
-#Vérifier que tout fonctionne
+## 5. Vérifier que tout fonctionne
 
-Affichez les conteneurs en cours d’exécution :
+Pour voir les conteneurs en cours d’exécution :
 
 ```bash
 docker ps
 ```
 
-# 🌐 6. Accès aux services
+Vous devriez voir au moins les conteneurs WordPress et Zabbix actifs.
+
+---
+
+## 6. Accès aux services
 
 ### 🔵 WordPress
 
@@ -75,7 +111,6 @@ Accédez à WordPress via votre navigateur :
 ```
 http://IP_DE_VOTRE_VM:8080
 ```
----
 
 ### 🔴 Zabbix
 
@@ -96,7 +131,7 @@ Identifiants par défaut :
 
 ---
 
-# 🧹 7. Commandes utiles
+## 7. Commandes Docker utiles
 
 ### Arrêter tout l’environnement
 
@@ -110,7 +145,7 @@ docker compose down
 docker compose restart
 ```
 
-### Voir les logs
+### Voir les logs en temps réel
 
 ```bash
 docker compose logs -f
@@ -118,3 +153,22 @@ docker compose logs -f
 
 ---
 
+## 8. Conseils supplémentaires
+
+* Sauvegardez régulièrement vos données WordPress et Zabbix.
+* Vérifiez les fichiers de configuration dans `docker-compose.yml` pour ajuster les ports ou volumes si nécessaire.
+* Pour toute modification majeure, pensez à recréer les conteneurs avec :
+
+```bash
+docker compose down
+docker compose up -d --build
+```
+
+```
+
+---
+
+Si tu veux, je peux aussi créer une **version encore plus visuelle et friendly** avec des emojis, sections colorées et des encadrés pour Docker et Docker Compose pour que ton README soit ultra clair et moderne.  
+
+Veux‑tu que je fasse ça ?
+```
