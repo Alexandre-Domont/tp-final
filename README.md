@@ -1,4 +1,4 @@
-#Tutoriel d’installation
+# Tutoriel d’installation
 
 Ce guide explique comment **réinstaller entièrement** l’environnement WordPress + Zabbix depuis le repository GitHub.
 
