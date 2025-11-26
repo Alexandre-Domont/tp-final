@@ -1,0 +1,80 @@
+version: "3.9"
+
+services:
+  # WordPress + MariaDB
+  wordpress-db:
+    image: mariadb:11
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppass
+    volumes:
+      - wp-db:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:latest
+    restart: always
+    ports:
+      - "8080:80"    # <-- WordPress accessible sur http://IP_VM:8080
+    environment:
+      WORDPRESS_DB_HOST: wordpress-db
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppass
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp-data:/var/www/html
+    depends_on:
+      - wordpress-db
+
+  # Zabbix + MariaDB
+
+  zabbix-db:
+    image: mariadb:11
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: zabbixroot
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbixpass
+    volumes:
+      - zabbix-db:/var/lib/mysql
+
+  zabbix-server:
+    image: zabbix/zabbix-server-mysql:latest
+    restart: always
+    environment:
+      DB_SERVER_HOST: zabbix-db
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbixpass
+      MYSQL_DATABASE: zabbix
+    depends_on:
+      - zabbix-db
+
+  zabbix-frontend:
+    image: zabbix/zabbix-web-nginx-mysql:latest
+    restart: always
+    ports:
+      - "8081:8080"   # <-- Interface Zabbix sur http://IP_VM:8081
+    environment:
+      DB_SERVER_HOST: zabbix-db
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbixpass
+      MYSQL_DATABASE: zabbix
+      PHP_TZ: "Europe/Paris"
+    depends_on:
+      - zabbix-server
+
+  zabbix-agent:
+    image: zabbix/zabbix-agent:latest
+    restart: always
+    environment:
+      ZBX_SERVER_HOST: zabbix-server
+    depends_on:
+      - zabbix-server
+
+volumes:
+  wp-db:
+  wp-data:
+  zabbix-db:
