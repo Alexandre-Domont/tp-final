@@ -1,10 +1,4 @@
-Parfait — voici un **README.md transformé en vrai tutoriel complet**, simple et clair, qui explique **comment réinstaller tout le projet depuis zéro, récupérer les fichiers, exécuter le script, lancer le docker-compose et accéder aux services**.
-
-Tu peux copier-coller directement ce README dans ton repo GitHub.
-
----
-
-# 📘 README.md — Tutoriel d’installation complète
+#Tutoriel d’installation
 
 Ce guide explique comment **réinstaller entièrement** l’environnement WordPress + Zabbix depuis le repository GitHub.
 
