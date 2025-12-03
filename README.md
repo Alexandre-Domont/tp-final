@@ -1,7 +1,7 @@
 
 ### Tutoriel d’installation pour Debian 12
 
-Ce guide explique comment **réinstaller entièrement** l’environnement WordPress + Zabbix depuis ce repository GitHub.
+Ce guide pour **réinstaller** l’environnement WordPress + Zabbix depuis ce repository GitHub.
 
 ---
 
@@ -151,9 +151,6 @@ docker compose restart
 ```bash
 docker compose logs -f
 ```
-Voici ton **docker-compose.yml entièrement commenté ligne par ligne directement dans le code**, comme tu l’as demandé 👍
-(*Commentaires en français avec `#` à droite ou au-dessus des lignes.*)
-
 ---
 
 # 📘 **docker-compose.yml avec explications**
