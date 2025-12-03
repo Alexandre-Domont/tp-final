@@ -151,3 +151,109 @@ docker compose restart
 ```bash
 docker compose logs -f
 ```
+Voici ton **docker-compose.yml entièrement commenté ligne par ligne directement dans le code**, comme tu l’as demandé 👍
+(*Commentaires en français avec `#` à droite ou au-dessus des lignes.*)
+
+---
+
+# 📘 **docker-compose.yml avec explications**
+
+```yaml
+version: "3.9"                # Version du format Docker Compose
+
+services:                     # Début de la section des services (conteneurs)
+
+  # WORDPRESS — Base de données
+
+  wordpress-db:
+    image: mariadb:11         # Image MariaDB version 11
+    restart: always           # Redémarre automatiquement en cas d’arrêt
+    environment:              # Variables d’environnement pour configurer MySQL
+      MYSQL_ROOT_PASSWORD: rootpassword   # Mot de passe root MySQL
+      MYSQL_DATABASE: wordpress           # Base WordPress à créer
+      MYSQL_USER: wpuser                 # Utilisateur MySQL pour WordPress
+      MYSQL_PASSWORD: wppass             # Mot de passe de wpuser
+    volumes:
+      - wp-db:/var/lib/mysql  # Volume persistant pour les données MySQL
+
+
+  # WORDPRESS — Application web
+
+  wordpress:
+    image: wordpress:latest   # Image officielle WordPress
+    restart: always           # Redémarre automatiquement
+    ports:
+      - "8080:80"             # WordPress sera accessible sur http://IP:8080
+    environment:
+      WORDPRESS_DB_HOST: wordpress-db    # Nom du conteneur DB WordPress
+      WORDPRESS_DB_USER: wpuser          # Identifiant MySQL
+      WORDPRESS_DB_PASSWORD: wppass      # Mot de passe MySQL
+      WORDPRESS_DB_NAME: wordpress       # Nom de la base WordPress
+    volumes:
+      - wp-data:/var/www/html # Stockage persistant des fichiers WordPress
+    depends_on:
+      - wordpress-db          # WordPress attend que la DB soit prête
+
+  # ZABBIX — Base de donnée
+  zabbix-db:
+    image: mariadb:11         # Image MariaDB version 11
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: zabbixroot   # Mot de passe root MySQL
+      MYSQL_DATABASE: zabbix            # Base Zabbix
+      MYSQL_USER: zabbix                # Utilisateur Zabbix
+      MYSQL_PASSWORD: zabbixpass        # Mot de passe utilisateur
+    volumes:
+      - zabbix-db:/var/lib/mysql        # Volume persistant Zabbix DB
+
+  # ZABBIX — Serveur
+  
+  zabbix-server:
+    image: zabbix/zabbix-server-mysql:latest   # Serveur Zabbix + support MySQL
+    restart: always
+    environment:              # Connexion à la base de données Zabbix
+      DB_SERVER_HOST: zabbix-db     # Adresse de la base (nom du service)
+      MYSQL_USER: zabbix            # Identifiant MySQL
+      MYSQL_PASSWORD: zabbixpass    # Mot de passe MySQL
+      MYSQL_DATABASE: zabbix        # Nom de la base Zabbix
+    depends_on:
+      - zabbix-db            # Zabbix server démarre après la DB
+
+  
+  # ZABBIX — Interface web
+
+  zabbix-frontend:
+    image: zabbix/zabbix-web-nginx-mysql:latest  # Interface web Zabbix (Nginx + PHP)
+    restart: always
+    ports:
+      - "8081:8080"        # Zabbix Web accessible sur http://IP:8081
+    environment:
+      DB_SERVER_HOST: zabbix-db   # Adresse de la base de Zabbix
+      MYSQL_USER: zabbix          # Identifiant MySQL
+      MYSQL_PASSWORD: zabbixpass  # Mot de passe MySQL
+      MYSQL_DATABASE: zabbix      # Nom de la base Zabbix
+      PHP_TZ: "Europe/Paris"      # Fuseau horaire PHP
+    depends_on:
+      - zabbix-server       # Le frontend attend le serveur Zabbix
+
+
+  #  ZABBIX — Agent
+  
+  zabbix-agent:
+    image: zabbix/zabbix-agent:latest   # Agent Zabbix installé dans un conteneur
+    restart: always
+    environment:
+      ZBX_SERVER_HOST: zabbix-server    # Adresse du serveur Zabbix pour envoyer les données
+    depends_on:
+      - zabbix-server                   # L’agent attend le serveur
+
+
+# VOLUMES PERSISTANTS
+
+volumes:
+  wp-db:          # Volume pour base WordPress
+  wp-data:        # Volume pour fichiers WordPress
+  zabbix-db:      # Volume pour base Zabbix
+```
+
+---
