@@ -1,5 +1,5 @@
-````markdown
-# Tutoriel d’installation pour Debian 12
+
+### Tutoriel d’installation pour Debian 12
 
 Ce guide explique comment **réinstaller entièrement** l’environnement WordPress + Zabbix depuis ce repository GitHub.
 
@@ -10,6 +10,9 @@ Ce guide explique comment **réinstaller entièrement** l’environnement WordPr
 Avant de commencer, assurez-vous que votre VM dispose de :
 
 - Git installé
+```bash
+apt install git
+```
 - Un accès internet
 - Les ports 8080 et 8081 libres pour WordPress et Zabbix
 
@@ -22,7 +25,6 @@ Clonez le repository sur votre VM :
 ```bash
 git clone https://github.com/Alexandre-Domont/tp-final.git
 ```
-````
 
 Entrez ensuite dans le dossier du projet :
 
