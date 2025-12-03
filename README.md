@@ -257,50 +257,50 @@ volumes:
 
 # 📘 **install_docker.sh avec explications**
 
-```yaml
+```bash
 #!/bin/bash
-set -e
+set -e   # Arrête le script si une commande échoue
 
 echo "=== Mise à jour du système ==="
-apt update -y && apt upgrade -y
+apt update -y && apt upgrade -y   # Met à jour la liste des paquets puis les met à niveau
 
 echo "=== Installation des dépendances ==="
-apt install -y ca-certificates curl gnupg lsb-release
+apt install -y ca-certificates curl gnupg lsb-release   # Installe les utilitaires nécessaires pour ajouter le dépôt Docker
 
 echo "=== Ajout de la clé GPG Docker ==="
-install -m 0755 -d /etc/apt/keyrings
+install -m 0755 -d /etc/apt/keyrings   # Crée le dossier des clés APT s’il n’existe pas
 curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg \
-    | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-chmod a+r /etc/apt/keyrings/docker.gpg
+    | gpg --dearmor -o /etc/apt/keyrings/docker.gpg    # Télécharge et convertit la clé GPG Docker
+chmod a+r /etc/apt/keyrings/docker.gpg   # Permet à APT de lire la clé
 
 echo "=== Ajout du dépôt Docker ==="
 echo \
 "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
 https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
 $(lsb_release -cs) stable" \
-> /etc/apt/sources.list.d/docker.list
+> /etc/apt/sources.list.d/docker.list   # Ajoute le dépôt officiel Docker à APT
 
 echo "=== Mise à jour des dépôts ==="
-apt update -y
+apt update -y   # Recharge la liste des paquets incluant maintenant Docker
 
 echo "=== Installation de Docker ==="
 apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# Installe le moteur Docker, le client, containerd, Buildx et Docker Compose v2
 
 echo "=== Démarrage de Docker ==="
-systemctl enable docker
-systemctl start docker
+systemctl enable docker   # Active Docker au démarrage
+systemctl start docker    # Démarre Docker maintenant
 
 echo "=== Vérification des versions ==="
-docker --version
-docker compose version || true
+docker --version          # Affiche la version de Docker
+docker compose version || true   # Vérifie la version de Docker Compose v2 (n'échoue pas si absent)
 
 echo "=== Installation de Docker Compose standalone ==="
-if ! command -v docker-compose &> /dev/null; then
+if ! command -v docker-compose &> /dev/null; then   # Si docker-compose (v1) n'est pas installé
     curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
-        -o /usr/local/bin/docker-compose
-    chmod +x /usr/local/bin/docker-compose
+        -o /usr/local/bin/docker-compose              # Télécharge Docker Compose v1 standalone
+    chmod +x /usr/local/bin/docker-compose            # Rend le binaire exécutable
 fi
 
-echo "=== Installation terminée ! ==="
-
+echo "=== Installation terminée ! ==="   # Message final
 ```
