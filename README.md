@@ -89,6 +89,11 @@ docker compose up -d
 docker-compose up -d
 ```
 
+| Outil      | Fonction principale               |
+|------------|-----------------------------------|
+| WordPress  | Création de sites / gestion de contenu |
+| Zabbix     | Supervision réseau et infrastructure |
+
 ---
 
 ## 5. Vérifier que tout fonctionne
